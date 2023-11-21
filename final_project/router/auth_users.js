@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const jwt = require('jsonwebtoken');
 let books = require("./booksdb.js");
 const regd_users = express.Router();
@@ -51,10 +52,29 @@ regd_users.post("/login", (req,res) => {
 regd_users.put("/auth/review/:isbn", (req, res) => {
     const user = req.session.authorization.username;
     const isbn = req.params.isbn;
-    const review = req.query.review;
-    const book = books[isbn];
+    const currentReviews = books[isbn].reviews;
+    const currentLenght = Object.keys(currentReviews).length;
+    let review = {username:user,review:req.query.review};
+    let updated = false;
 
-    console.log(user, isbn, review);
+    console.log("currentReviews length is "+currentLenght);
+
+    for(i=0; i < currentLenght; i++){
+        console.log("loop "+i+" username is "+currentReviews[i+1].username);
+        if(currentReviews[i+1].username == user){
+            console.log("Current reviews has a matching user");
+            currentReviews[i+1] = review;
+            books[isbn].reviews = currentReviews;
+            updated = true;
+            console.log(review);
+            return res.status (200).send("Review for book with isbn# "+isbn+" from user "+user+" Has been updated successfully");
+        }
+    }
+    
+    if(!updated){
+        console.log("!updated was true");
+        currentReviews[currentLenght] = review
+    }
     return res.status(200).json({message:"Request recieved"})
 });
 
