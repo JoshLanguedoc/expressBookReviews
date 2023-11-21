@@ -9,11 +9,15 @@ let books = {
     },
     3: {"author": "Dante Alighieri",
         "title": "The Divine Comedy", 
-        "reviews": {1:"example review isbn 3", 2:"Another example review for isbn 3"} 
+        "reviews": {
+            1:{username:"John",
+                review:"example review isbn 3"
+            }
+        } 
     },
     4: {"author": "Unknown",
         "title": "The Epic Of Gilgamesh", 
-        "reviews": {1:"example review isbn 4"} 
+        "reviews": {} 
     },
     5: {"author": "Unknown",
         "title": "The Book Of Job", 
