@@ -10,10 +10,7 @@ let books = {
     3: {"author": "Dante Alighieri",
         "title": "The Divine Comedy", 
         "reviews": {
-            1:{username:"John",
-                review:"John's review"
-            },
-            2:{username:"Amy",
+            "Amy":{
                 review:"Amy's review"
             }
         } 
