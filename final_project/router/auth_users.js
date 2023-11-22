@@ -60,7 +60,6 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     console.log("currentReviews length is "+currentLenght);
 
     for(i=0; i < currentLenght; i++){
-        console.log("loop "+i+" username is "+currentReviews[i+1].username);
         if(currentReviews[i+1].username == user){
             console.log("Current reviews has a matching user");
             currentReviews[i+1] = review;
@@ -69,6 +68,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
             console.log(review);
             return res.status (200).send("Review for book with isbn# "+isbn+" from user "+user+" Has been updated successfully");
         }
+
     }
     
     if(!updated){
@@ -77,6 +77,24 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     }
     return res.status(200).json({message:"Request recieved"})
 });
+
+//Delete a book review
+regd_users.delete("/auth/review/:isbn", (req,res)=>{
+    const isbn = req.params.isbn;
+    const user = req.session.authorization.username;
+    const currentReviews = books[isbn].reviews;
+    const currentLength = Object.keys(currentReviews).length;
+    let deleted = false;
+
+    for(i=0; i < currentLength; i++){
+        if(currentReviews[i+1].username == user){
+            console.log(currentReviews);
+            delete currentReviews[i+1];
+            console.log(currentReviews);
+        }
+    }
+    return res.status(200).json({message:"Request recieved"})
+})
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
